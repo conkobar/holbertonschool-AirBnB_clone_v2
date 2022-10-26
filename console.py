@@ -136,9 +136,9 @@ class HBNBCommand(cmd.Cmd):
                 value = int(value)
             if hasattr(new_instance, key):
                 setattr(new_instance, key, value)
-            storage.new(new_instance)
-            storage.save()
-            print(new_instance.id)
+        storage.new(new_instance)
+        storage.save()
+        print(new_instance.id)
 
     def help_create(self):
         """ Help information for the create method """
