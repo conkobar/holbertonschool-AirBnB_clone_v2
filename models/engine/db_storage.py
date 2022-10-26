@@ -32,3 +32,47 @@ class DBStorage(Base):
         )
         if os.getenv("HBNB_ENV") in ("test", "dev"):
             Base.metadata.drop_all(self.__engine)
+
+    def all(self, cls=None):
+        """query current sesh all obs (of cls if given)"""
+        school = {
+            City,
+            State,
+            User,
+            Place,
+            Amenity,
+            Review
+        }
+        sesh = {}
+        sesh_list = []
+        if cls in school:
+            sesh_list = self.__session.query(cls).all()
+        elif cls is None:
+            for thing in school:
+                sesh_list += self.__session.query(thing).all()
+        for pip in sesh_list:
+            sesh[f"{type(pip).__name__}.{pip.id}"] = pip
+        return sesh
+
+    def new(self, obj):
+        """add obj to current sesh"""
+        self.__session.add(obj)
+
+    def save(self):
+        """commit all changes to current sesh"""
+        self.__session.commit()
+
+    def delete(self, obj=None):
+        """delete obj from current sesh"""
+        if obj is not None:
+            self.__session.delete(obj)
+
+    def reload(self):
+        """create all tables in db & create new sesh"""
+        Base.metadata.create_all(self.__engine)
+        self.__session = scoped_session(
+            sessionmaker(
+                bind=self.__engine,
+                expire_on_commit=False
+            )
+        )
