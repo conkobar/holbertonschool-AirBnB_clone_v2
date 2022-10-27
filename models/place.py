@@ -27,8 +27,7 @@ class Place(BaseModel, Base):
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
         reviews = relationship('Review', backref='place',
                                cascade='all, delete, delete-orphan')
-       # amenities = relationship("Amenity", secondary="place_amenity",
-        #                         viewonly=False, backref="place_amenities")
+                       viewonly=False, backref="place_amenities")
     else:
         @property
         def reviews(self):
@@ -36,17 +35,3 @@ class Place(BaseModel, Base):
             from models import storage
             return [review for review in storage.all(Review).values()
                     if review.place_id == self.id]
-
-        #@property
-        #def amenities(self):
-            #"""getter for amenity when use filestorage"""
-            #from models import storage
-            #return [amenity for amenity in storage.all(Amenity).values()
-                   # if amenity.id in self.amenity_ids]
-
-       # @amenities.setter
-        #def amenities(self, obj):
-         #   """adds an ammenity to list"""
-          #  from models import storage
-           # if isinstance(value, Amenity):
-            #    amenity_ids.append(value_id)
