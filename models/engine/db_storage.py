@@ -2,6 +2,7 @@
 """new HBNB storage engine"""
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy.sql import text
 import os
 from models.base_model import BaseModel, Base
 from models.user import User
@@ -76,3 +77,6 @@ class DBStorage:
                 expire_on_commit=False
             )
         )
+    def close(self):
+        """closes session"""
+        self.__session.remove()

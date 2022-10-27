@@ -4,7 +4,7 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 
 
-class Amenity(Base):
+class Amenity(BaseModel, Base):
     """amenity class"""
     __tablename__ = 'amenities'
     name = Column(String(128), nullable=False)
