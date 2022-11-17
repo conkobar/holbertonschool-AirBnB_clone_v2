@@ -52,7 +52,9 @@ class DBStorage:
             for thing in school:
                 sesh_list += self.__session.query(thing).all()
         for pip in sesh_list:
-            sesh[f"{type(pip).__name__}.{pip.id}"] = pip
+            sesh["{}.{}".format(
+                type(pip).__name__, pip.id
+            )] = pip
         return sesh
 
     def new(self, obj):
