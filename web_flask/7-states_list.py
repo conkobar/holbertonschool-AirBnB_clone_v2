@@ -17,7 +17,7 @@ def stately():
 
 
 @app.teardown_appcontext
-def some_method():
+def some_method(content):
     storage.close()
 
 
